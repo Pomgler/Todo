@@ -1,3 +1,27 @@
-.notice {
-    display: flex;
+.todo {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 24px;
+  position: relative;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 18px;
+  color: #ccc;
+}
+
+.text {
+  font-size: 18px;
+  color: rgb(255, 255, 255);
+}
+
+.buttons {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
 }

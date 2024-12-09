@@ -1,35 +1,38 @@
 import deleteIcon from "../../assets/deleteIcon.svg"
 import styles from "./Todo.module.css"
 import editIcon from "../../assets/editIcon.svg"
-import { Dispatch, SetStateAction, useContext } from "react";
-import { ToDoContext } from "../../context/ToDoContext";
+import { Dispatch, FC, SetStateAction, useContext } from "react";
+import { Todo as TodoItem } from "../../types/todo";
+import { useDispatch } from "react-redux";
+import { createTodoModal, deleteTodoModal, editTodoModal } from "../../store/modal-slice";
+import { setCurrentTodo } from "../../store/todo-slice";
 
- 
- export interface TodoProps {
-    title: string;
-    text: string;
-    id: string;
-    state: Dispatch<SetStateAction<TodoProps[]>>;
-    confirmModal(): void;
-}
-export function Todo ( {title, text, id, state, confirmModal}: TodoProps) {
-    const toDoContext = useContext(ToDoContext)
-    const click = ()=>{
-        toDoContext?.setToDoId(id)
-        confirmModal()
-        }
-    return (
-    <div className={styles.notice}>
-        <p>
-            {title}
-        </p>
-        <div>
-            <p>
-                {text}
-            </p>
-        </div>
-          <img onClick={click} src={deleteIcon}/>
-          <img onClick={click}src={editIcon}/>
-    </div>
-    )
-}
+const Todo: FC<TodoItem> = ({title, text, id}) => {
+  const dispatch = useDispatch();
+
+  const editTodo = () => {
+    dispatch(editTodoModal());
+    dispatch(setCurrentTodo(id));
+  };
+
+  const deleteTodo = () => {
+    dispatch(deleteTodoModal());
+    dispatch(setCurrentTodo(id));
+  };
+
+  return (
+    <article className={styles.todo}>
+      <p className={styles.title}>{title}</p>
+      <br />
+      <br />
+      <p className={styles.text}>{text}</p>
+
+      <div className={styles.buttons}>
+        <button onClick={editTodo}>Edit</button>
+        <button onClick={deleteTodo}>Delete</button>
+      </div>
+    </article>
+  );
+};
+
+export default Todo;
