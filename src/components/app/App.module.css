@@ -1,0 +1,25 @@
+
+
+.header {
+  width: 100%;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  border-bottom: 2px solid orange;
+
+  & h2 {
+    flex:  1;
+  }
+}
+
+.bt {
+  padding: 12px 24px;
+  border-radius: 12px;
+  background-color: #caa626;
+  font-size: 20px;
+  color: #000;
+}
