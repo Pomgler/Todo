@@ -20,12 +20,13 @@ function App() {
     dispatch(createTodoModal());
   };
 
-  // useEffect(() => {
-  //   dispatch(createTodo({
-  //     text: "Hello",
-  //     title: "My todo"
-  //   }))
-  // }, []);
+  useEffect(() => {
+   (async () => {
+    fetch("http://localhost:5000/todos")
+      .then(res => res.json())
+      .then(console.log)
+   })()
+  }, []);
 
   return (
     <main className={styles.app}>
