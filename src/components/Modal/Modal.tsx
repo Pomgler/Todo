@@ -3,7 +3,7 @@ import { FC, PropsWithChildren, useContext, useState } from "react"
 import styles from "./Modal.module.css"
 import { useDispatch, useSelector } from "react-redux"
 import { closeModal, selectModal } from "../../store/modal-slice"
-import { createTodo, editTodo, selectTodos } from "../../store/todo-slice"
+import { createTodo, editTodo, fetchCreateTodo, selectTodos } from "../../store/todo-slice"
 import { ModalType } from "../../types/modal-type"
 
 export const Modal: FC = () => {
@@ -16,7 +16,11 @@ export const Modal: FC = () => {
 
   const handleSave = () => {
     if (modalType === ModalType.CreateTodo) {
-      dispatch(createTodo({ text, title }));
+      // @ts-ignore
+      dispatch(fetchCreateTodo({
+        text, title,
+        id: ""
+      }));
     }
 
     if (modalType === ModalType.EditTodo) {

@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import styles from "./App.module.css";
 import { Modal } from "../Modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { createTodo, selectTodos } from "../../store/todo-slice";
+import { createTodo, fetchTodos, selectTodos, setStatus } from "../../store/todo-slice";
 import { createTodoModal, selectModal } from "../../store/modal-slice";
 import { ModalType } from "../../types/modal-type";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
@@ -10,7 +10,7 @@ import Todo from "../Todo/Todo";
 
 
 function App() {
-  const { todos } = useSelector(selectTodos);
+  const { todos, status } = useSelector(selectTodos);
   const { modalType, message } = useSelector(selectModal);
   const dispatch = useDispatch();
 
@@ -20,13 +20,23 @@ function App() {
     dispatch(createTodoModal());
   };
 
+
   useEffect(() => {
-   (async () => {
-    fetch("http://localhost:5000/todos")
-      .then(res => res.json())
-      .then(console.log)
-   })()
-  }, []);
+    // @ts-ignore
+    dispatch(fetchTodos())
+
+    if (status === "okay") {
+      dispatch(setStatus("none"));
+    }
+  }, [todos]);
+
+  useEffect(() => {
+    if (status === "updated") {
+        // @ts-ignore
+        dispatch(fetchTodos())
+        dispatch(setStatus("none"))
+    }
+  }, [status])
 
   return (
     <main className={styles.app}>
@@ -44,7 +54,11 @@ function App() {
       {modalType === ModalType.DeleteTodo && <ConfirmModal/>}
 
       <section>
-        {todos.map((todo) => <Todo key={todo.id} {...todo}/>)}
+        {status === "loading" ? (
+          <h2>Loading...</h2>
+        ) : (
+          todos.map((todo) => <Todo key={todo.id} {...todo}/>)
+        )}
       </section>
     </main>
   );

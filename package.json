@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "serve": "tsc && node server.js"
+    "serve": "node server.mjs"
   },
   "dependencies": {
     "@mui/icons-material": "^6.1.9",

@@ -44,9 +44,9 @@ app.patch("/update-todo/:id", (req, res) => {
     if (todo) {
       db.set(id, {id, text: text || todo.text, title: title || todo.title})
       res.sendStatus(200)
+    } else { 
+      res.sendStatus(400);
     }
-
-    res.sendStatus(400);
   }
 });
 
@@ -55,9 +55,9 @@ app.delete("delete-todo/:id", (req, res) => {
   if (db.has(id)) {
     db.delete(id);
     res.send(true)
+  } else { 
+    res.send(false)
   }
-
-  res.send(false)
 })
 
 app.listen(port, () => {
